@@ -33,7 +33,7 @@ objXMLHttpRequest.onreadystatechange = function() {
             var json=JSON.parse(objXMLHttpRequest.responseText)
             console.log(json['name']);
 
-            var path='/Andrea/cards_haematological/';
+            var path='img/cards_haematological/';
 
             for (var row=1; row<=4; row++){
                 var newrow=create_row();

@@ -13,7 +13,7 @@
 </head>
 <body>
     <div class="container">
-        <img id="logo" src="logo-atlas-4.svg" alt="Logo-Atlas"></img>
+        <img id="logo" src="assets/img/logo-atlas-4.svg" alt="Logo-Atlas"></img>
     </div>
     <form action="#">
     <div class="input-group mb-3 input-group-lg">
