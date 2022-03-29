@@ -52,11 +52,9 @@ objXMLHttpRequest.onreadystatechange = function() {
                      maxHeight: 1000,
                      maxWidth: 1000,
                      bgColor: '#000',
-                     bgOpacity: .85,
+                     bgOpacity: .85
                  })
                  .listen(".zoom")
-
-
 
         }else {
              alert('Error Code:' + objXMLHttpRequest.status);
