@@ -1,0 +1,69 @@
+body{
+    width: 100%;
+}
+
+#logo{
+    display: block;
+    width: 45%;
+    margin: auto;
+    padding-top: 2%;
+}
+
+.input-group{
+    width: 50%;
+    margin:auto;
+    padding-top:2%;
+}
+
+#gallery{
+    display:block;
+    margin:auto;
+    width:85%;
+    margin-top:2%;
+    margin-bottom: 5%;
+}
+
+
+/* .all-images{
+    width:100%;
+    padding:5%;
+} */
+
+.all-images:hover
+    {
+      -moz-box-shadow: 0 0 10px #ccc;
+      -webkit-box-shadow: 0 0 10px #ccc;
+      box-shadow: 0 0 10px #ccc;
+      cursor:pointer;
+    }
+
+.modal-body { 
+    position: relative;
+    overflow-y: auto;
+    max-height: 100%;
+    max-width: 100%;
+    width:auto; 
+    }
+
+/* Image Zoom Plugin */
+.zoom {
+    border: 2px solid #fff;
+    max-width: 375px;
+    padding:5%;
+    /* opacity: 0.6;
+    transition: opacity 0.3s ease-in-out;
+    -moz-transition: opacity 0.3s ease-in-out;
+    -webkit-transition: opacity 0.3s ease-in-out; */
+    background-color: #fff;
+  }
+  .zoom:hover {
+    border: 2px solid #ccc;
+    opacity: 1;
+    transition: opacity 0.3s ease-in-out;
+    -moz-transition: opacity 0.3s ease-in-out;
+    -webkit-transition: opacity 0.3s ease-in-out;
+  }
+
+
+
+
