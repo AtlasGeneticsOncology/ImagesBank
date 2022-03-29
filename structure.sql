@@ -2,6 +2,8 @@ CREATE TABLE `images` (
   `idImage` INT AUTO_INCREMENT NOT NULL,
   `filename` VARCHAR(1000) NOT NULL,
   `legend` VARCHAR(10000) NOT NULL,
+  `category` VARCHAR(250) NULL DEFAULT NULL ,
+  `keywords` TEXT NULL DEFAULT NULL ,
   `idAtlas` INT NOT NULL,
   CONSTRAINT `PRIMARY` PRIMARY KEY (`idImage`)
 );
