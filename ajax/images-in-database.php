@@ -1,46 +1,45 @@
 <?php
-
 include 'conexion.php';
 
-$connection=new mysqli($hostname, $username, $password, $database);
+header('Content-Type: application/json; charset=utf-8');
 
-// if (!$con) {
-//     die("La conexión ha fallado: " . mysqli_connect_error());
-// }
-// echo "Conexión satisfactoria";
-// mysqli_close($con);
+$allowedCategories = array("hematological", "tumors", "genes", "cancer", "case", "deep", "teaching");
+
+if (!isset($_REQUEST['q']) || empty($_REQUEST['q'])) {
+    echo json_encode(array("error" => "true", "message" => "Parameters are not valid"));
+    die();
+}
+
+$querySearch = filter_var($_REQUEST["q"], FILTER_SANITIZE_SPECIAL_CHARS);
 
 
-// echo json_encode(array("error"=>True));
+$QUERY = "SELECT * FROM images WHERE legend LIKE '%{$querySearch}%' ";
 
-$image = $_REQUEST["q"];
 
-//$newimage=filter_var($image, FILTER_SANITIZE_ENCODED); 
- $newimage=filter_var($image, FILTER_SANITIZE_SPECIAL_CHARS);
+if (isset($_REQUEST['category']) && !empty($_REQUEST['category'])) {
+    $category = filter_var($_REQUEST['category'], FILTER_SANITIZE_SPECIAL_CHARS);
 
-if(isset($image) && $image!="" && $image == $newimage) {
-
-    $query=$connection->query("SELECT * FROM images WHERE legend LIKE '%{$image}%' LIMIT 16");
-    $image = array();
-
-    while($row=$query->fetch_assoc()){
-        $image['name'][] = $row['filename'];
-        $image['legend'][] = $row['legend'];
+    if (!in_array(strtolower($category), $allowedCategories)) {
+        echo json_encode(array("error" => "true", "message" => "Category is not valid"));
+        die();
     }
 
-    header('Content-Type: application/json; charset=utf-8');
-    echo json_encode($image);
-
-}
-else
-{
-    echo "ERROR";
+    $QUERY .= " AND `category` = '{$category}' ";
 }
 
 
 
+$query = $connection->query($QUERY . " LIMIT 16");
+$image = array();
 
+while ($row = $query->fetch_assoc()) {
+    $image['name'][] = $row['filename'];
+    $image['legend'][] = $row['legend'];
+}
 
+if(count($image) == 0){
+    echo json_encode(array("error"=>true,"message"=>"Images is not found"));
+    die();
+}
 
-
-
+echo json_encode($image);

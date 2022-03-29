@@ -11,20 +11,26 @@ function show_images_gallery(path, element, row, legend) {
 
     var box = document.createElement("div");
     row.appendChild(box);
-    box.setAttribute("class","col-md-3")
-    box.setAttribute("class", "all-boxes")
+    box.setAttribute("class","col-md-3");
+
+    var zoom = document.createElement("div");
+    zoom.setAttribute("class","zoom");
+
+    box.appendChild(zoom);
     
     var image = document.createElement("img");
-    box.appendChild(image);
     image.setAttribute("src", path + element);
     image.setAttribute("alt", legend);
     image.setAttribute("class", "all-images");
     
-    var legend = document.createElement("p");
-    box.appendChild(legend);
-    legend.innerHTML="hola";
-    legend.setAttribute("class", "hide_legend");
+    zoom.appendChild(image);
 
+    
+    var legend = document.createElement("p");
+    legend.setAttribute("class", "hide_legend");
+    legend.innerHTML="hola";
+    
+    zoom.appendChild(legend);
 }
 
 
@@ -82,8 +88,9 @@ document.getElementsByTagName("form")[0].addEventListener("submit", function (e)
     }
 
     var str = document.getElementById('text').value;
+    let category = document.getElementById("category").value;
 
-    objXMLHttpRequest.open('GET', 'ajax/images-in-database.php?q=' + str, true);
+    objXMLHttpRequest.open('GET', 'ajax/images-in-database.php?q=' + str+"&category="+category, true);
     objXMLHttpRequest.send();
 
 

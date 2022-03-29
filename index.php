@@ -9,8 +9,6 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="assets/css/styles.css">
 
-
-
 </head>
 
 <body>
@@ -21,14 +19,25 @@
         <img id="logo" src="assets/img/logo-atlas-4.svg" alt="Logo-Atlas"></img>
 
         <form action="" method="GET">
-            <div class="input-group mb-3 input-group-lg">
+
+            <div class="input-group mb-3 input-group-lg w-100 mt-5">
+                <select id="category" class="form-control">
+                    <option value="" selected>All categories</option>
+                    <option value="hematological">Hematological diseases</option>
+                    <option value="tumors">Solid Tumors</option>
+                    <option value="genes">Genes</option>
+                    <option value="cancer">Cancer Prone Diseases</option>
+                    <option value="case">Case Reports</option>
+                    <option value="deep">Deep Insight</option>
+                    <option value="teaching">Educational Items</option>
+                </select>
                 <input type="text" class="form-control" placeholder="Input your search here..." aria-label="Input your search here..." aria-describedby="basic-addon2" id="text">
                 <div class="input-group-append">
                     <button class="btn btn-outline-secondary" type="submit">Search</button>
                 </div>
             </div>
         </form>
-        
+
         <div id="gallery" class="w-100">
 
         </div>
