@@ -1,0 +1,7 @@
+CREATE TABLE `images` ( 
+  `idImage` INT AUTO_INCREMENT NOT NULL,
+  `filename` VARCHAR(1000) NOT NULL,
+  `legend` VARCHAR(10000) NOT NULL,
+  `idAtlas` INT NOT NULL,
+  CONSTRAINT `PRIMARY` PRIMARY KEY (`idImage`)
+);

@@ -19,6 +19,8 @@ function show_images_gallery(path, element, row, legend){
     image.setAttribute("class","zoom all-images");
 }
 
+
+
 function call(){
 var objXMLHttpRequest = new XMLHttpRequest();
 
@@ -33,7 +35,7 @@ objXMLHttpRequest.onreadystatechange = function() {
             var json=JSON.parse(objXMLHttpRequest.responseText)
             console.log(json['name']);
 
-            var path='img/cards_haematological/';
+            var path='assets/img/cards_haematological/';
 
             for (var row=1; row<=4; row++){
                 var newrow=create_row();
@@ -51,14 +53,10 @@ objXMLHttpRequest.onreadystatechange = function() {
                      maxWidth: 1000,
                      bgColor: '#000',
                      bgOpacity: .85,
-                     onOpen: prueba
                  })
                  .listen(".zoom")
 
 
-             function prueba(){
-                 console.log("click");
-             }
 
         }else {
              alert('Error Code:' + objXMLHttpRequest.status);
