@@ -2,7 +2,7 @@
 
 include 'conexion.php';
 
-$connection=new mysqli($servername, $username, $password, $database);
+$connection=new mysqli($hostname, $username, $password, $database);
 
 // if (!$con) {
 //     die("La conexión ha fallado: " . mysqli_connect_error());
