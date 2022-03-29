@@ -21,14 +21,25 @@
         <img id="logo" src="assets/img/logo-atlas-4.svg" alt="Logo-Atlas"></img>
 
         <form action="" method="GET">
-            <div class="input-group mb-3 input-group-lg">
+
+            <div class="input-group mb-3 input-group-lg w-100 mt-5">
+                <select id="category" class="form-control">
+                    <option value="" selected>All categories</option>
+                    <option value="hematological">Hematological diseases</option>
+                    <option value="tumors">Solid Tumors</option>
+                    <option value="genes">Genes</option>
+                    <option value="cancer">Cancer Prone Diseases</option>
+                    <option value="case">Case Reports</option>
+                    <option value="deep">Deep Insight</option>
+                    <option value="teaching">Educational Items</option>
+                </select>
                 <input type="text" class="form-control" placeholder="Input your search here..." aria-label="Input your search here..." aria-describedby="basic-addon2" id="text">
                 <div class="input-group-append">
                     <button class="btn btn-outline-secondary" type="submit">Search</button>
                 </div>
             </div>
         </form>
-        
+
         <div id="gallery" class="w-100">
 
         </div>

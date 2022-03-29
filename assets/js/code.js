@@ -66,8 +66,9 @@ document.getElementsByTagName("form")[0].addEventListener("submit", function (e)
     }
 
     var str = document.getElementById('text').value;
+    let category = document.getElementById("category").value;
 
-    objXMLHttpRequest.open('GET', 'ajax/images-in-database.php?q=' + str, true);
+    objXMLHttpRequest.open('GET', 'ajax/images-in-database.php?q=' + str+"&category="+category, true);
     objXMLHttpRequest.send();
 
 
