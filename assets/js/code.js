@@ -1,14 +1,16 @@
 function removeElement(node) { node.parentNode.removeChild(node); }
 
 function create_row() {
-    var row = document.createElement("tr");
+    var row = document.createElement("div");
+    row.setAttribute("class","row  justify-content-center");
     document.getElementById("gallery").appendChild(row);
     return row;
 }
 
 function show_images_gallery(path, element, row, legend) {
 
-    var box = document.createElement("td");
+    var box = document.createElement("div");
+    box.setAttribute("class","col-md-3")
     row.appendChild(box);
     box.setAttribute("class", "all-boxes")
 
@@ -46,6 +48,7 @@ document.getElementsByTagName("form")[0].addEventListener("submit", function (e)
                     json['name'].splice(0, 4);
                 }
 
+
                 Zoomerang
                     .config({
                         maxHeight: 1000,
@@ -54,8 +57,6 @@ document.getElementsByTagName("form")[0].addEventListener("submit", function (e)
                         bgOpacity: .85,
                     })
                     .listen(".zoom")
-
-
 
             } else {
                 alert('Error Code:' + objXMLHttpRequest.status);
@@ -69,6 +70,9 @@ document.getElementsByTagName("form")[0].addEventListener("submit", function (e)
     objXMLHttpRequest.open('GET', 'ajax/images-in-database.php?q=' + str, true);
     objXMLHttpRequest.send();
 
+
+
 })
+
 
 
