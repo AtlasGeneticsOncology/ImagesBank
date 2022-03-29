@@ -3,4 +3,4 @@
 $hostname='localhost';
 $username='root';
 $password='';
-$database='practica';
+$database='db_atlas';
