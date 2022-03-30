@@ -46,3 +46,9 @@
     -webkit-transition: opacity 0.3s ease-in-out;
     cursor: pointer;
 }
+
+.notfoundmessage{
+    text-align:center;
+    margin-top:20%;
+    font-size:25px
+}

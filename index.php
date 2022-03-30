@@ -18,7 +18,7 @@
 
         <img id="logo" src="assets/img/logo-atlas-4.svg" alt="Logo-Atlas"></img>
 
-        <form action="" method="GET">
+        <form action="" method="GET" class="needs-validation" novalidate>
 
             <div class="input-group mb-3 input-group-lg w-100 mt-5">
                 <select id="category" class="form-control">
@@ -31,9 +31,13 @@
                     <option value="deep">Deep Insight</option>
                     <option value="teaching">Educational Items</option>
                 </select>
-                <input type="text" class="form-control" placeholder="Input your search here..." aria-label="Input your search here..." aria-describedby="basic-addon2" id="text">
+                <input type="text" class="form-control" placeholder="Input your search here..." aria-label="Input your search here..." aria-describedby="basic-addon2" id="text" pattern="[a-zA-Z0-9@#$%&/]+[a-zA-Z0-9@#$%&/ ]+" required>
+                
                 <div class="input-group-append">
-                    <button class="btn btn-outline-secondary" type="submit">Search</button>
+                    <button style="border-top-right-radius: 5px; border-bottom-right-radius: 5px;" class="btn btn-outline-secondary" type="submit">Search</button>
+                </div>
+                <div class="invalid-feedback" style="padding-left:46%">
+                    Please input your search.
                 </div>
             </div>
         </form>
@@ -42,7 +46,6 @@
 
         </div>
 
-
     </div>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
@@ -50,6 +53,26 @@
 
     <script src="assets/js/zoomerang.js"></script>
     <script type="text/javascript" src="assets/js/code.js"></script>
+
+    <script>
+
+    (function() {
+    'use strict';
+    window.addEventListener('load', function() {
+        var forms = document.getElementsByClassName('needs-validation');
+
+        var validation = Array.prototype.filter.call(forms, function(form) {
+        form.addEventListener('submit', function(event) {
+            if (form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+            }
+            form.classList.add('was-validated');
+        }, false);
+        });
+    }, false);
+    })();
+    </script>
 
 </body>
 

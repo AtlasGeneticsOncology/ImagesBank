@@ -53,15 +53,25 @@ document.getElementsByTagName("form")[0].addEventListener("submit", function (e)
                 var json = JSON.parse(objXMLHttpRequest.responseText)
                 var path = 'assets/img/cards_haematological/';
 
-                for (var row = 1; row <= 4; row++) {
-                    var newrow = create_row();
-                    for (var cols = 0; cols <= 3; cols++) {
-                        if (json['name'][cols] != undefined) {
-                            show_images_gallery(path, json['name'][cols], newrow, json['legend'][cols]);
+                if(json['error']==true && json['message']=="Images is not found"){
+                    var notfound = document.createElement("p");
+                    notfound.setAttribute("class","notfoundmessage");
+                    notfound.innerHTML="<strong>Bad News :(</strong><br>Image Not Found";
+                    
+                    document.getElementById("gallery").appendChild(notfound);
+                }
+                else{
+
+                    for (var row = 1; row <= 4; row++) {
+                        var newrow = create_row();
+                        for (var cols = 0; cols <= 3; cols++) {
+                            if (json['name'][cols] != undefined) {
+                                show_images_gallery(path, json['name'][cols], newrow, json['legend'][cols]);
+                            }
                         }
+                        json['name'].splice(0, 4);
+                        json['legend'].splice(0, 4);
                     }
-                    json['name'].splice(0, 4);
-                    json['legend'].splice(0, 4);
                 }
 
                 Zoomerang
@@ -77,14 +87,12 @@ document.getElementsByTagName("form")[0].addEventListener("submit", function (e)
 
                     function show_legend(el){
                         var show_legend=el.lastChild;
-                        // console.log(show_legend);
                         show_legend.setAttribute('style','display:block;');
 
                     }
 
                     function hide_legend(el){
                         var hide_legend=el.lastChild;
-                        // console.log(hide_legend);
                         hide_legend.setAttribute('style','display:none;');
                     }
 
