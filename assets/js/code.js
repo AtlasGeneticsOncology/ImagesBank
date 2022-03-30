@@ -10,27 +10,30 @@ function create_row() {
 function show_images_gallery(path, element, row, legend) {
 
     var box = document.createElement("div");
-    row.appendChild(box);
     box.setAttribute("class","col-md-3");
-
-    var zoom = document.createElement("div");
-    zoom.setAttribute("class","zoom");
-
-    box.appendChild(zoom);
     
+    row.appendChild(box);
+
+
+    var imageContainer = document.createElement("div");
+    imageContainer.setAttribute("class","zoom");
+
+    box.appendChild(imageContainer);
+    
+
     var image = document.createElement("img");
     image.setAttribute("src", path + element);
     image.setAttribute("alt", legend);
     image.setAttribute("class", "all-images");
     
-    zoom.appendChild(image);
+    imageContainer.appendChild(image);
 
     
-    var legend = document.createElement("p");
-    legend.setAttribute("class", "hide_legend");
-    legend.innerHTML="hola";
+    var plegend = document.createElement("p");
+    plegend.setAttribute("style", "display:none");
+    plegend.innerHTML=legend+"<br><a href='#'>Read More</a>";
     
-    zoom.appendChild(legend);
+    imageContainer.appendChild(plegend);
 }
 
 
@@ -54,12 +57,12 @@ document.getElementsByTagName("form")[0].addEventListener("submit", function (e)
                     var newrow = create_row();
                     for (var cols = 0; cols <= 3; cols++) {
                         if (json['name'][cols] != undefined) {
-                            show_images_gallery(path, json['name'][cols], newrow, json['legend']);
+                            show_images_gallery(path, json['name'][cols], newrow, json['legend'][cols]);
                         }
                     }
                     json['name'].splice(0, 4);
+                    json['legend'].splice(0, 4);
                 }
-
 
                 Zoomerang
                     .config({
@@ -67,17 +70,22 @@ document.getElementsByTagName("form")[0].addEventListener("submit", function (e)
                         maxWidth: 1000,
                         bgColor: '#000',
                         bgOpacity: .85,
-                        onOpen: show_legend
+                        onOpen: show_legend,
+                        onClose: hide_legend
                     })
                     .listen(".zoom")
 
                     function show_legend(el){
-                        //var hide = getElementsByClassName("hide_legend");
-                        el.removeAttribute("class","hide_legend");
-                        el.setAttribute("class","show_legend")
-                        //hide.removeAttribute("class", "hide_legend");
-                        //hide.setAttribute("class", "show_legend");
+                        var show_legend=el.lastChild;
+                        // console.log(show_legend);
+                        show_legend.setAttribute('style','display:block;');
 
+                    }
+
+                    function hide_legend(el){
+                        var hide_legend=el.lastChild;
+                        // console.log(hide_legend);
+                        hide_legend.setAttribute('style','display:none;');
                     }
 
             } else {
