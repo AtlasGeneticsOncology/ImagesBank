@@ -7,7 +7,7 @@ function create_row() {
     return row;
 }
 
-function show_images_gallery(path, element, row, legend) {
+function show_images_gallery(element, row, legend, links, category) {
 
     var box = document.createElement("div");
     box.setAttribute("class","col-md-3");
@@ -20,6 +20,7 @@ function show_images_gallery(path, element, row, legend) {
 
     box.appendChild(imageContainer);
     
+    var path = `assets/img/${category}/`;
 
     var image = document.createElement("img");
     image.setAttribute("src", path + element);
@@ -31,7 +32,7 @@ function show_images_gallery(path, element, row, legend) {
     
     var plegend = document.createElement("p");
     plegend.setAttribute("style", "display:none");
-    plegend.innerHTML=legend+"<br><a href='#'>Read More</a>";
+    plegend.innerHTML=legend+"<br><a href="+links+" target='_blank'>Read More</a>";
     
     imageContainer.appendChild(plegend);
 }
@@ -51,7 +52,7 @@ document.getElementsByTagName("form")[0].addEventListener("submit", function (e)
                 }
 
                 var json = JSON.parse(objXMLHttpRequest.responseText)
-                var path = 'assets/img/cards_haematological/';
+                
 
                 if(json['error']==true && json['message']=="Images is not found"){
                     var notfound = document.createElement("p");
@@ -66,11 +67,15 @@ document.getElementsByTagName("form")[0].addEventListener("submit", function (e)
                         var newrow = create_row();
                         for (var cols = 0; cols <= 3; cols++) {
                             if (json['name'][cols] != undefined) {
-                                show_images_gallery(path, json['name'][cols], newrow, json['legend'][cols]);
+                                console.log(json['categories'][cols])
+
+                                show_images_gallery(json['name'][cols], newrow, json['legend'][cols], json['link'][cols], json['categories'][cols]);
                             }
                         }
                         json['name'].splice(0, 4);
                         json['legend'].splice(0, 4);
+                        json['link'].splice(0, 4);
+                        json['categories'].splice(0, 4);
                     }
                 }
 

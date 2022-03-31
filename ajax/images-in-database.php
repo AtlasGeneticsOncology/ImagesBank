@@ -37,6 +37,7 @@ while ($row = $query->fetch_assoc()) {
     $image['name'][] = $row['filename'];
     $image['legend'][] = substr($row['legend'],0,150)."...";
     $image['link'][] = fnGetLinkToImage($row['idAtlas'],$row['category'],$row['title']);
+    $image['categories'][] = fnGetPathCategory(array_search($row['category'],$allowedCategories));
 }
 
 if(count($image) == 0){

@@ -32,7 +32,13 @@ function fnGetLinkToImage(int $idAtlas,string $category,string $title){
 
     $slug = fnFriendlyURL($title);
 
-    return $URL."/{$linksCategories[$positionCategory]}/{$slug}";
+    return $URL."/{$linksCategories[$positionCategory]}/{$idAtlas}/{$slug}";
 
 
+}
+
+function fnGetPathCategory(int $category){
+    $paths= array('cards_haematological','cards_tumours','cards_genes','cards_cancer_prone_diseases','cards_case_reports','cards_deep','cards_teaching');
+
+    return $paths[$category];
 }
