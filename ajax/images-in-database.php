@@ -35,7 +35,7 @@ $image = array();
 
 while ($row = $query->fetch_assoc()) {
     $image['name'][] = $row['filename'];
-    $image['legend'][] = $row['legend'];
+    $image['legend'][] = substr($row['legend'],0,150)."...";
 }
 
 if(count($image) == 0){
