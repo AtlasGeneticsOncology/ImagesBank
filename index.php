@@ -26,10 +26,10 @@
                     <option value="hematological">Hematological diseases</option>
                     <option value="tumors">Solid Tumors</option>
                     <option value="genes">Genes</option>
-                    <option value="cancer">Cancer Prone Diseases</option>
-                    <option value="case">Case Reports</option>
-                    <option value="deep">Deep Insight</option>
-                    <option value="teaching">Educational Items</option>
+                    <option value="cancer" disabled="disabled">Cancer Prone Diseases</option>
+                    <option value="case" disabled="disabled">Case Reports</option>
+                    <option value="deep" disabled="disabled">Deep Insight</option>
+                    <option value="teaching" disabled="disabled">Educational Items</option>
                 </select>
                 <input type="text" class="form-control" placeholder="Input your search here..." aria-label="Input your search here..." aria-describedby="basic-addon2" id="text" pattern="[a-zA-Z0-9@#$%&/]+[a-zA-Z0-9@#$%&/ ]+" required>
                 
