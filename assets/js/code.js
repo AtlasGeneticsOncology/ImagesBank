@@ -7,7 +7,7 @@ function create_row() {
     return row;
 }
 
-function show_images_gallery(element, row, legend, links, category) {
+function show_images_gallery(element, row, legend, links, category, title) {
 
     var box = document.createElement("div");
     box.setAttribute("class","col-md-3");
@@ -32,7 +32,7 @@ function show_images_gallery(element, row, legend, links, category) {
     
     var plegend = document.createElement("p");
     plegend.setAttribute("style", "display:none");
-    plegend.innerHTML=legend+"<br><a href="+links+" target='_blank'>Read More</a>";
+    plegend.innerHTML=legend+"<br>In <a href="+links+" target='_blank'>"+title+"</a>";
     
     imageContainer.appendChild(plegend);
 }
@@ -69,13 +69,14 @@ document.getElementsByTagName("form")[0].addEventListener("submit", function (e)
                             if (json['name'][cols] != undefined) {
                                 console.log(json['categories'][cols])
 
-                                show_images_gallery(json['name'][cols], newrow, json['legend'][cols], json['link'][cols], json['categories'][cols]);
+                                show_images_gallery(json['name'][cols], newrow, json['legend'][cols], json['link'][cols], json['categories'][cols],json['title'][cols]);
                             }
                         }
                         json['name'].splice(0, 4);
                         json['legend'].splice(0, 4);
                         json['link'].splice(0, 4);
                         json['categories'].splice(0, 4);
+                        json['title'].splice(0, 4);
                     }
                 }
 
