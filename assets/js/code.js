@@ -137,7 +137,7 @@ function show_images_gallery(element, row, legend, links, category, title) {
 
     box.appendChild(imageContainer);
 
-    var path = `assets/img/${category}/`;
+    var path = `https://atlasgeneticsoncology.org/img/${category}/`;
 
     var image = document.createElement("img");
     image.setAttribute("src", path + element);
