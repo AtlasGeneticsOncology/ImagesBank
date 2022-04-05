@@ -1,3 +1,5 @@
+var request = new XMLHttpRequest();
+
 function removeElement(node) { node.parentNode.removeChild(node); }
 
 function create_row() {
@@ -9,11 +11,11 @@ function create_row() {
 
 function show_images_gallery(element, row, legend, links, category, title) {
 
+    
     var box = document.createElement("div");
     box.setAttribute("class","col-md-3");
     
     row.appendChild(box);
-
 
     var imageContainer = document.createElement("div");
     imageContainer.setAttribute("class","zoom");
@@ -37,87 +39,145 @@ function show_images_gallery(element, row, legend, links, category, title) {
     imageContainer.appendChild(plegend);
 }
 
+function pagination(){
+
+    var boxpagination=document.getElementById("pagbox");
+    while (boxpagination.firstChild) {
+        boxpagination.removeChild(boxpagination.firstChild);
+    }
+
+    for (var numpages = 1; numpages <= 10; numpages++){
+        var page = document.createElement("li");
+        page.setAttribute("class","page-item");
+        page.setAttribute("id",numpages);
+        if (numpages==1){
+            page.setAttribute("class","page-item active");
+        }
+
+        boxpagination.appendChild(page);
+
+        var enl = document.createElement("a");
+        enl.setAttribute("class","page-link");
+        // enl.setAttribute("href","#");
+        enl.setAttribute("data",numpages);
+        enl.setAttribute("onclick","pages("+numpages+")")
+        enl.innerHTML=numpages;
+        page.appendChild(enl);
+    }
+    
+}
+
+function pages(pages,request,intputText,selectCategory){
+    if (pages == undefined) {
+        pages=1;
+    }
+    console.log(pages);
+    request.open('GET', 'ajax/images-in-database.php?q=' + intputText.value + "&category=" + selectCategory.value + "&pages=" +pages, true);
+    request.send();
+}
 
 document.getElementsByTagName("form")[0].addEventListener("submit", function (e) {
     e.preventDefault();
+    
+    var intputText = document.getElementById('text');
+    var selectCategory = document.getElementById("category");
+    var errorMessage = document.getElementsByClassName("show-errors")[0];
+    var gallery = document.getElementById('gallery');
+    
+    // Reset input class
+    intputText.setAttribute("class", "form-control")
+    errorMessage.style = "display:none"
+    gallery.innerHTML = ""
+    
+    if (intputText.value == "" || intputText.value == " " || intputText.value.length == 0) {
+        intputText.setAttribute("class", "form-control is-invalid");
+        return;
+    }
+    
+    // Send request to server
 
-    var objXMLHttpRequest = new XMLHttpRequest();
 
-    objXMLHttpRequest.onreadystatechange = function () {
-        if (objXMLHttpRequest.readyState === 4) {
-            if (objXMLHttpRequest.status === 200) {
-                var div = document.getElementById('gallery');
-                while (div.firstChild) {
-                    div.removeChild(div.firstChild);
-                }
-
-                var json = JSON.parse(objXMLHttpRequest.responseText)
+    request.onload = function () {
                 
 
-                if(json['error']==true && json['message']=="Images is not found"){
-                    var notfound = document.createElement("p");
-                    notfound.setAttribute("class","notfoundmessage");
-                    notfound.innerHTML="<strong>Bad News :(</strong><br>Image Not Found";
-                    
-                    document.getElementById("gallery").appendChild(notfound);
-                }
-                else{
+        if (this.status >= 200 && this.status < 400) {
 
-                    for (var row = 1; row <= 4; row++) {
-                        var newrow = create_row();
-                        for (var cols = 0; cols <= 3; cols++) {
-                            if (json['name'][cols] != undefined) {
-                                console.log(json['categories'][cols])
+            var data = JSON.parse(this.response);
 
-                                show_images_gallery(json['name'][cols], newrow, json['legend'][cols], json['link'][cols], json['categories'][cols],json['title'][cols]);
-                            }
-                        }
-                        json['name'].splice(0, 4);
-                        json['legend'].splice(0, 4);
-                        json['link'].splice(0, 4);
-                        json['categories'].splice(0, 4);
-                        json['title'].splice(0, 4);
-                    }
-                }
 
-                Zoomerang
-                    .config({
-                        maxHeight: 1000,
-                        maxWidth: 1000,
-                        bgColor: '#000',
-                        bgOpacity: .85,
-                        onOpen: show_legend,
-                        onClose: hide_legend
-                    })
-                    .listen(".zoom")
-
-                    function show_legend(el){
-                        var show_legend=el.lastChild;
-                        show_legend.setAttribute('style','display:block;');
-
-                    }
-
-                    function hide_legend(el){
-                        var hide_legend=el.lastChild;
-                        hide_legend.setAttribute('style','display:none;');
-                    }
-
-            } else {
-                alert('Error Code:' + objXMLHttpRequest.status);
-                alert('Error Message: ' + objXMLHttpRequest.statusText);
+            // Error validation
+            if (data.error) {
+                console.error("Error " + data.message)
+                errorMessage.style = "display:block";
+                return;
             }
+
+            let position = 0;
+
+            for (var row = 1; row <= 4; row++) {
+
+                var newrow = create_row();
+
+                for (var cols = 0; cols <= 3; cols++) {
+
+
+                    if (data['name'][position] != undefined) {
+
+                        show_images_gallery(data['name'][position], newrow, data['legend'][position], data['link'][position], data['categories'][position],data['title'][position]);
+                        console.log(position)
+
+                    }
+
+                    position = position + 1
+
+                }
+
+            }
+            pagination();
+
+            Zoomerang
+            .config({
+                maxHeight: 1000,
+                maxWidth: 1000,
+                bgColor: '#000',
+                bgOpacity: .85,
+                onOpen: show_legend,
+                onClose: hide_legend
+            })
+            .listen(".zoom")
+
+
+            function show_legend(el) {
+                var show_legend = el.lastChild;
+                show_legend.setAttribute('style', 'display:block;');
+
+            }
+
+            function hide_legend(el) {
+                var hide_legend = el.lastChild;
+                hide_legend.setAttribute('style', 'display:none;');
+            }
+
+        } else {
+            console.error("La peticion ha fallado")
+            errorMessage.style = "display:block";
+
+
         }
-    }
 
-    var str = document.getElementById('text').value;
-    let category = document.getElementById("category").value;
+    };
 
-    objXMLHttpRequest.open('GET', 'ajax/images-in-database.php?q=' + str+"&category="+category, true);
-    objXMLHttpRequest.send();
+    request.onerror = function () {
+        console.error("La peticion ha fallado")
+        errorMessage.style = "display:block";
+
+    };
 
 
-
+    pages(1,request,intputText,selectCategory);
 })
+
+
 
 
 

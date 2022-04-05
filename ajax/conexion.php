@@ -26,7 +26,7 @@ function fnGetLinkToImage(int $idAtlas,string $category,string $title){
     $URL="https://atlasgeneticsoncology.org/";
 
     $categories = array("hematological", "tumors", "genes", "cancer", "case", "deep", "teaching");
-    $linksCategories = array("haematological","solid-tumor","gene"."cancer-prone-disease","case-report","deep-insight","teaching");
+    $linksCategories = array("haematological","solid-tumor","gene","cancer-prone-disease","case-report","deep-insight","teaching");
     
     $positionCategory = array_search($category,$categories);
 
