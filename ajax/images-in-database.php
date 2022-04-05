@@ -26,7 +26,9 @@ if (isset($_REQUEST['category']) && !empty($_REQUEST['category'])) {
         die();
     }
     
-    $QUERY .= " AND `category` = '{$category}' ";
+    $subQuery = " AND `category` = '{$category}' ";
+
+    $QUERY .= $subQuery;
 }
 $images_per_page=16;
 
@@ -53,14 +55,12 @@ while ($row = $query->fetch_assoc()) {
     $image['categories'][] = fnGetPathCategory(array_search($row['category'],$allowedCategories));
     $image['title'][] = $row['title'];
 }
+list($countimage)=$connection->query("SELECT COUNT(idImage) FROM images WHERE legend LIKE '%{$querySearch}%' {$subQuery}")->fetch_row();
 
-$countimage=$connection->query("SELECT COUNT(idImage) FROM images WHERE legend LIKE '%{$querySearch}%'");
 
-$total_pages=$countimage->fetch_row();
+settype($countimage, 'integer');
 
-settype($total_pages[0], 'integer');
-
-$image['total_pages']= ceil($total_pages[0] / $images_per_page);
+$image['total_pages']= ceil($countimage / $images_per_page);
 $image['actual_page'] = $actual_page;
 
 
