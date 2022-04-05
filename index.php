@@ -32,7 +32,7 @@
                     <option value="teaching" disabled="disabled">Educational Items</option>
                 </select>
                 <input type="text" class="form-control" placeholder="Input your search here..." aria-label="Input your search here..." aria-describedby="basic-addon2" id="text" pattern="[a-zA-Z0-9@#$%&/]+[a-zA-Z0-9@#$%&/ ]+" required>
-                
+
                 <div class="input-group-append">
                     <button style="border-top-right-radius: 5px; border-bottom-right-radius: 5px;" class="btn btn-outline-secondary" type="submit">Search</button>
                 </div>
@@ -42,14 +42,14 @@
             </div>
         </form>
 
-        <div id="gallery" class="w-100">    
+        <div id="gallery" class="w-100">
 
         </div>
 
         <div class="show-errors" style="display:none;text-align:center;">
             <p><strong>Bad News :(</strong><br>Image Not Found</p>
-        </div> 
-        
+        </div>
+
         <nav aria-label="Page navigation example">
             <ul class="pagination" id="pagbox">
                 <li class="page-item"><a class="page-link" href="#">Previous</a></li>
@@ -63,27 +63,9 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
     <script src="assets/js/zoomerang.js"></script>
+
     <script type="text/javascript" src="assets/js/code.js"></script>
 
-    <script>
-
-    (function() {
-    'use strict';
-    window.addEventListener('load', function() {
-        var forms = document.getElementsByClassName('needs-validation');
-
-        var validation = Array.prototype.filter.call(forms, function(form) {
-        form.addEventListener('submit', function(event) {
-            if (form.checkValidity() === false) {
-            event.preventDefault();
-            event.stopPropagation();
-            }
-            form.classList.add('was-validated');
-        }, false);
-        });
-    }, false);
-    })();
-    </script>
 
 </body>
 

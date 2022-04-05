@@ -1,141 +1,52 @@
-var request = new XMLHttpRequest();
 
-function removeElement(node) { node.parentNode.removeChild(node); }
+var request = new XMLHttpRequest(); // Create request to import data from db
+var intputText = document.getElementById('text');
+var selectCategory = document.getElementById("category");
+var errorMessage = document.getElementsByClassName("show-errors")[0];
+var gallery = document.getElementById('gallery');
+var pages = 1;
 
-function create_row() {
-    var row = document.createElement("div");
-    row.setAttribute("class","row  justify-content-center");
-    document.getElementById("gallery").appendChild(row);
-    return row;
-}
 
-function show_images_gallery(element, row, legend, links, category, title) {
+// Send request to server
+request.onload = function () {
 
-    
-    var box = document.createElement("div");
-    box.setAttribute("class","col-md-3");
-    
-    row.appendChild(box);
 
-    var imageContainer = document.createElement("div");
-    imageContainer.setAttribute("class","zoom");
 
-    box.appendChild(imageContainer);
-    
-    var path = `assets/img/${category}/`;
+    if (this.status >= 200 && this.status < 400) {
 
-    var image = document.createElement("img");
-    image.setAttribute("src", path + element);
-    image.setAttribute("alt", legend);
-    image.setAttribute("class", "all-images");
-    
-    imageContainer.appendChild(image);
+        var data = JSON.parse(this.response);
 
-    
-    var plegend = document.createElement("p");
-    plegend.setAttribute("style", "display:none");
-    plegend.innerHTML=legend+"<br>In <a href="+links+" target='_blank'>"+title+"</a>";
-    
-    imageContainer.appendChild(plegend);
-}
 
-function pagination(){
-
-    var boxpagination=document.getElementById("pagbox");
-    while (boxpagination.firstChild) {
-        boxpagination.removeChild(boxpagination.firstChild);
-    }
-
-    for (var numpages = 1; numpages <= 10; numpages++){
-        var page = document.createElement("li");
-        page.setAttribute("class","page-item");
-        page.setAttribute("id",numpages);
-        if (numpages==1){
-            page.setAttribute("class","page-item active");
+        // Error validation
+        if (data.error) {
+            console.error("Error " + data.message)
+            errorMessage.style = "display:block";
+            return;
         }
 
-        boxpagination.appendChild(page);
+        let position = 0;
 
-        var enl = document.createElement("a");
-        enl.setAttribute("class","page-link");
-        // enl.setAttribute("href","#");
-        enl.setAttribute("data",numpages);
-        enl.setAttribute("onclick","pages("+numpages+")")
-        enl.innerHTML=numpages;
-        page.appendChild(enl);
-    }
-    
-}
+        for (var row = 1; row <= 4; row++) {
 
-function pages(pages,request,intputText,selectCategory){
-    if (pages == undefined) {
-        pages=1;
-    }
-    console.log(pages);
-    request.open('GET', 'ajax/images-in-database.php?q=' + intputText.value + "&category=" + selectCategory.value + "&pages=" +pages, true);
-    request.send();
-}
+            var newrow = create_row();
 
-document.getElementsByTagName("form")[0].addEventListener("submit", function (e) {
-    e.preventDefault();
-    
-    var intputText = document.getElementById('text');
-    var selectCategory = document.getElementById("category");
-    var errorMessage = document.getElementsByClassName("show-errors")[0];
-    var gallery = document.getElementById('gallery');
-    
-    // Reset input class
-    intputText.setAttribute("class", "form-control")
-    errorMessage.style = "display:none"
-    gallery.innerHTML = ""
-    
-    if (intputText.value == "" || intputText.value == " " || intputText.value.length == 0) {
-        intputText.setAttribute("class", "form-control is-invalid");
-        return;
-    }
-    
-    // Send request to server
+            for (var cols = 0; cols <= 3; cols++) {
 
 
-    request.onload = function () {
-                
+                if (data['name'][position] != undefined) {
 
-        if (this.status >= 200 && this.status < 400) {
-
-            var data = JSON.parse(this.response);
-
-
-            // Error validation
-            if (data.error) {
-                console.error("Error " + data.message)
-                errorMessage.style = "display:block";
-                return;
-            }
-
-            let position = 0;
-
-            for (var row = 1; row <= 4; row++) {
-
-                var newrow = create_row();
-
-                for (var cols = 0; cols <= 3; cols++) {
-
-
-                    if (data['name'][position] != undefined) {
-
-                        show_images_gallery(data['name'][position], newrow, data['legend'][position], data['link'][position], data['categories'][position],data['title'][position]);
-                        console.log(position)
-
-                    }
-
-                    position = position + 1
+                    show_images_gallery(data['name'][position], newrow, data['legend'][position], data['link'][position], data['categories'][position], data['title'][position]);
+                    console.log(position)
 
                 }
 
-            }
-            pagination();
+                position = position + 1
 
-            Zoomerang
+            }
+
+        }
+
+        Zoomerang
             .config({
                 maxHeight: 1000,
                 maxWidth: 1000,
@@ -147,35 +58,161 @@ document.getElementsByTagName("form")[0].addEventListener("submit", function (e)
             .listen(".zoom")
 
 
-            function show_legend(el) {
-                var show_legend = el.lastChild;
-                show_legend.setAttribute('style', 'display:block;');
-
-            }
-
-            function hide_legend(el) {
-                var hide_legend = el.lastChild;
-                hide_legend.setAttribute('style', 'display:none;');
-            }
-
-        } else {
-            console.error("La peticion ha fallado")
-            errorMessage.style = "display:block";
-
+        function show_legend(el) {
+            var show_legend = el.lastChild;
+            show_legend.setAttribute('style', 'display:block;');
 
         }
 
-    };
+        function hide_legend(el) {
+            var hide_legend = el.lastChild;
+            hide_legend.setAttribute('style', 'display:none;');
+        }
 
-    request.onerror = function () {
+
+        pagination(data.total, data.page);
+
+
+
+        request.close();
+
+
+    } else {
         console.error("La peticion ha fallado")
         errorMessage.style = "display:block";
 
-    };
+
+    }
+
+};
+
+request.onerror = function () {
+    console.error("La peticion ha fallado")
+    errorMessage.style = "display:block";
+
+};
 
 
-    pages(1,request,intputText,selectCategory);
+document.getElementsByTagName("form")[0].addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    // Reset input class
+    intputText.setAttribute("class", "form-control")
+    errorMessage.style = "display:none"
+    gallery.innerHTML = ""
+
+    if (intputText.value == "" || intputText.value == " " || intputText.value.length == 0) {
+        intputText.setAttribute("class", "form-control is-invalid");
+        return;
+    }
+
+    // Config url
+    request.open('GET', 'ajax/images-in-database.php?q=' + intputText.value + "&category=" + selectCategory.value + "&pages=" + pages, true);
+    request.send();
+
 })
+
+
+
+// Delete DOM Galery
+function removeElement(node) { node.parentNode.removeChild(node); }
+
+
+function create_row() {
+    var row = document.createElement("div");
+    row.setAttribute("class", "row  justify-content-center");
+    document.getElementById("gallery").appendChild(row);
+    return row;
+}
+
+// Display images into galery
+function show_images_gallery(element, row, legend, links, category, title) {
+
+
+    var box = document.createElement("div");
+    box.setAttribute("class", "col-md-3");
+
+    row.appendChild(box);
+
+    var imageContainer = document.createElement("div");
+    imageContainer.setAttribute("class", "zoom");
+
+    box.appendChild(imageContainer);
+
+    var path = `assets/img/${category}/`;
+
+    var image = document.createElement("img");
+    image.setAttribute("src", path + element);
+    image.setAttribute("alt", legend);
+    image.setAttribute("class", "all-images");
+
+    imageContainer.appendChild(image);
+
+
+    var plegend = document.createElement("p");
+    plegend.setAttribute("style", "display:none");
+    plegend.innerHTML = legend + "<br>In <a href=" + links + " target='_blank'>" + title + "</a>";
+
+    imageContainer.appendChild(plegend);
+}
+
+
+function eventToPage(numPage) {
+    // Reset input class
+    intputText.setAttribute("class", "form-control")
+    errorMessage.style = "display:none"
+    gallery.innerHTML = ""
+
+    if (intputText.value == "" || intputText.value == " " || intputText.value.length == 0) {
+        intputText.setAttribute("class", "form-control is-invalid");
+        return;
+    }
+
+    // Config url
+    request.open('GET', 'ajax/images-in-database.php?q=' + intputText.value + "&category=" + selectCategory.value + "&pages=" + numPage, true);
+    request.send();
+}
+
+
+// TODO: Remove function 
+function pagination(numberOfPages, pageNumber) {
+
+    if (numberOfPages > 10) {
+        numberOfPages = 10;
+    }
+
+    var boxpagination = document.getElementById("pagbox");
+    while (boxpagination.firstChild) {
+        boxpagination.removeChild(boxpagination.firstChild);
+    }
+
+    for (var numpages = 1; numpages <= numberOfPages; numpages++) {
+        var page = document.createElement("li");
+
+        if (parseInt(numpages) == parseInt(pageNumber)) {
+            console.log("ENRO")
+            page.setAttribute("class", "page-item active");
+            
+        } else {
+            page.setAttribute("class", "page-item");
+        }
+
+        page.setAttribute("id", numpages);
+
+        boxpagination.appendChild(page);
+
+        var enl = document.createElement("a");
+        enl.setAttribute("class", "page-link");
+        // enl.setAttribute("href","#");
+        enl.setAttribute("data", numpages);
+        enl.setAttribute("onclick", "eventToPage(" + numpages + ")")
+        enl.innerHTML = numpages;
+        page.appendChild(enl);
+    }
+
+}
+
+
 
 
 

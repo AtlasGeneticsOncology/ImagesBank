@@ -3,7 +3,7 @@
 $hostname = 'localhost';
 $username = 'root';
 $password = '';
-$database = 'practica';
+$database = 'db_atlas';
 
 $connection=new mysqli($hostname, $username, $password, $database);
 

@@ -61,6 +61,7 @@ $total=$countimage->fetch_row();
 settype($total[0], 'integer');
 
 $image['total']= ceil($total[0] / $images_per_page);
+$image['page'] = $page;
 
 
 if(count($image) == 0){
