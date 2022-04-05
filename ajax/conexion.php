@@ -16,8 +16,6 @@ if (!$connection) {
 
 function fnFriendlyURL(string $str)
 {
-    //return preg_replace('/\W+/', '-', strtolower($str));
-    //return strtolower(trim(preg_replace('/[^a-zA-Z0-9]+/', '-', $str), '-'));
     return strtolower(trim(preg_replace('/[^a-zA-Z0-9;()\+]+/', '-', $str), '-'));
 }
 

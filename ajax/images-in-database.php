@@ -38,10 +38,8 @@ $image = array();
 
 $from = ($actual_page - 1)*$images_per_page;
 
-#$limit = $page * $images_per_page;
-
 $query = $connection->query($QUERY . " LIMIT ".$from.",".$images_per_page);
-#$query = $connection->query($QUERY);
+
 
 while ($row = $query->fetch_assoc()) {
     $image['name'][] = $row['filename'];
