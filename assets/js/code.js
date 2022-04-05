@@ -4,6 +4,7 @@ var intputText = document.getElementById('text');
 var selectCategory = document.getElementById("category");
 var errorMessage = document.getElementsByClassName("show-errors")[0];
 var gallery = document.getElementById('gallery');
+var navpagination = document.getElementsByClassName('pagination')[0];
 var pages = 1;
 
 
@@ -19,7 +20,7 @@ request.onload = function () {
         if (data.error) {
             console.error("Error " + data.message)
             errorMessage.style = "display:block";
-            document.getElementsByClassName("pagination").style = "display:none";
+            navpagination.style = "display:none";
             return;
         }
 
@@ -79,8 +80,7 @@ request.onload = function () {
     } else {
         console.error("La peticion ha fallado")
         errorMessage.style = "display:block";
-        document.getElementsByClassName("pagination").style = "display:none";
-
+        navpagination.style = "display:none";
 
     }
 
@@ -89,7 +89,6 @@ request.onload = function () {
 request.onerror = function () {
     console.error("La peticion ha fallado")
     errorMessage.style = "display:block";
-    document.getElementsByClassName("pagination").style = "display:none";
 
 };
 
@@ -101,9 +100,11 @@ document.getElementsByTagName("form")[0].addEventListener("submit", function (e)
     intputText.setAttribute("class", "form-control")
     errorMessage.style = "display:none"
     gallery.innerHTML = ""
+    navpagination.style = "display:normal"
 
     if (intputText.value == "" || intputText.value == " " || intputText.value.length == 0) {
         intputText.setAttribute("class", "form-control is-invalid");
+        navpagination.style = "display:none";
         return;
     }
 
@@ -113,9 +114,6 @@ document.getElementsByTagName("form")[0].addEventListener("submit", function (e)
 
 })
 
-
-// Delete DOM Galery
-function removeElement(node) { node.parentNode.removeChild(node); }
 
 
 function create_row() {
@@ -174,7 +172,7 @@ function eventToPage(numPage) {
 }
 
 
-// TODO: Remove function 
+// Pagination Nav
 function pagination(total_Pages, actual_page) {
 
     if (total_Pages > 10) {
@@ -183,14 +181,13 @@ function pagination(total_Pages, actual_page) {
 
     var boxpagination = document.getElementById("pagbox");
     while (boxpagination.firstChild) {
-        boxpagination.removeChild(boxpagination.firstChild);
+         boxpagination.removeChild(boxpagination.firstChild);
     }
 
     for (var numpages = 1; numpages <= total_Pages; numpages++) {
         var page = document.createElement("li");
 
         if (parseInt(numpages) == parseInt(actual_page)) {
-            console.log("ENRO")
             page.setAttribute("class", "page-item active");
             
         } else {
