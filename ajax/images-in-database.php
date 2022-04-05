@@ -30,11 +30,11 @@ if (isset($_REQUEST['category']) && !empty($_REQUEST['category'])) {
 }
 $images_per_page=16;
 
-$page = $_REQUEST['pages'];
+$actual_page = $_REQUEST['pages'];
 
 $image = array();
 
-$from = ($page - 1)*$images_per_page;
+$from = ($actual_page - 1)*$images_per_page;
 
 #$limit = $page * $images_per_page;
 
@@ -56,15 +56,15 @@ while ($row = $query->fetch_assoc()) {
 
 $countimage=$connection->query("SELECT COUNT(idImage) FROM images WHERE legend LIKE '%{$querySearch}%'");
 
-$total=$countimage->fetch_row();
+$total_pages=$countimage->fetch_row();
 
-settype($total[0], 'integer');
+settype($total_pages[0], 'integer');
 
-$image['total']= ceil($total[0] / $images_per_page);
-$image['page'] = $page;
+$image['total_pages']= ceil($total_pages[0] / $images_per_page);
+$image['actual_page'] = $actual_page;
 
 
-if(count($image) == 0){
+if(count($image['name']) == 0){
     echo json_encode(array("error"=>true,"message"=>"Images is not found"));
     die();
 }

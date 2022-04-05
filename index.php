@@ -15,7 +15,6 @@
 
     <div class="container">
 
-
         <img id="logo" src="assets/img/logo-atlas-4.svg" alt="Logo-Atlas"></img>
 
         <form action="" method="GET" class="needs-validation" novalidate>
@@ -47,13 +46,11 @@
         </div>
 
         <div class="show-errors" style="display:none;text-align:center;">
-            <p><strong>Bad News :(</strong><br>Image Not Found</p>
+            <p style="text-align:center;margin-top:20%;font-size:25px"><strong>Bad News :(</strong><br>Image Not Found</p>
         </div>
 
-        <nav aria-label="Page navigation example">
+        <nav aria-label="Page navigation example" style="margin-top:2%;">
             <ul class="pagination" id="pagbox">
-                <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                <li class="page-item"><a class="page-link" href="#">Next</a></li>
             </ul>
         </nav>
 

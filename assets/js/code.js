@@ -10,8 +10,6 @@ var pages = 1;
 // Send request to server
 request.onload = function () {
 
-
-
     if (this.status >= 200 && this.status < 400) {
 
         var data = JSON.parse(this.response);
@@ -21,6 +19,7 @@ request.onload = function () {
         if (data.error) {
             console.error("Error " + data.message)
             errorMessage.style = "display:block";
+            document.getElementsByClassName("pagination").style = "display:none";
             return;
         }
 
@@ -70,7 +69,7 @@ request.onload = function () {
         }
 
 
-        pagination(data.total, data.page);
+        pagination(data.total_pages, data.actual_page);
 
 
 
@@ -80,6 +79,7 @@ request.onload = function () {
     } else {
         console.error("La peticion ha fallado")
         errorMessage.style = "display:block";
+        document.getElementsByClassName("pagination").style = "display:none";
 
 
     }
@@ -89,6 +89,7 @@ request.onload = function () {
 request.onerror = function () {
     console.error("La peticion ha fallado")
     errorMessage.style = "display:block";
+    document.getElementsByClassName("pagination").style = "display:none";
 
 };
 
@@ -111,7 +112,6 @@ document.getElementsByTagName("form")[0].addEventListener("submit", function (e)
     request.send();
 
 })
-
 
 
 // Delete DOM Galery
@@ -175,10 +175,10 @@ function eventToPage(numPage) {
 
 
 // TODO: Remove function 
-function pagination(numberOfPages, pageNumber) {
+function pagination(total_Pages, actual_page) {
 
-    if (numberOfPages > 10) {
-        numberOfPages = 10;
+    if (total_Pages > 10) {
+        total_Pages = 10;
     }
 
     var boxpagination = document.getElementById("pagbox");
@@ -186,10 +186,10 @@ function pagination(numberOfPages, pageNumber) {
         boxpagination.removeChild(boxpagination.firstChild);
     }
 
-    for (var numpages = 1; numpages <= numberOfPages; numpages++) {
+    for (var numpages = 1; numpages <= total_Pages; numpages++) {
         var page = document.createElement("li");
 
-        if (parseInt(numpages) == parseInt(pageNumber)) {
+        if (parseInt(numpages) == parseInt(actual_page)) {
             console.log("ENRO")
             page.setAttribute("class", "page-item active");
             
@@ -203,7 +203,6 @@ function pagination(numberOfPages, pageNumber) {
 
         var enl = document.createElement("a");
         enl.setAttribute("class", "page-link");
-        // enl.setAttribute("href","#");
         enl.setAttribute("data", numpages);
         enl.setAttribute("onclick", "eventToPage(" + numpages + ")")
         enl.innerHTML = numpages;
