@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>Index</title>
+    <title>Images Bank</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -40,6 +40,8 @@
                 </div>
             </div>
         </form>
+        <div id="results">
+        </div>
 
         <div id="gallery" class="w-100">
 

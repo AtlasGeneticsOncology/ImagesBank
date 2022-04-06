@@ -54,12 +54,15 @@ while ($row = $query->fetch_assoc()) {
     $image['title'][] = $row['title'];
 }
 list($countimage)=$connection->query("SELECT COUNT(idImage) FROM images WHERE legend LIKE '%{$querySearch}%' {$subQuery}")->fetch_row();
-
+list($countarticles)=$connection->query("SELECT COUNT(DISTINCT(idAtlas)) FROM images WHERE legend LIKE '%{$querySearch}%' {$subQuery}")->fetch_row();
 
 settype($countimage, 'integer');
 
 $image['total_pages']= ceil($countimage / $images_per_page);
 $image['actual_page'] = $actual_page;
+
+$image['total_images'] = $countimage;
+$image['total_articles'] = $countarticles;
 
 
 if(count($image['name']) == 0){
