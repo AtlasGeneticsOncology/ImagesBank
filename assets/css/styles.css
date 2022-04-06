@@ -42,4 +42,42 @@
     cursor: pointer;
 }
 
+#results p{
+    color:grey;
+}
+
+@media (max-width:480px) {
+
+    .input-group {
+        width: 100%;
+        margin: auto;
+    }
+
+    
+    #gallery {
+        margin-left:-20%;
+    }
+
+    .zoom img{
+        border: 1px solid #fff;
+        max-width: 50%;
+        padding: 5%;
+        background-color: #fff;
+        max-height: 200px;
+        margin-left: 35%;
+    }
+    
+    .zoom p{
+        color:white;
+        text-align: center;
+        width: 75%;
+        white-space: normal;
+        padding:5%;
+        font-size:5px;
+        margin-left:30%;
+    }
+}
+
+
+
 

@@ -5,6 +5,7 @@ var selectCategory = document.getElementById("category");
 var errorMessage = document.getElementsByClassName("show-errors")[0];
 var gallery = document.getElementById('gallery');
 var navpagination = document.getElementsByClassName('pagination')[0];
+var resultsMessage = document.getElementById('results')
 var pages = 1;
 
 
@@ -21,6 +22,7 @@ request.onload = function () {
             console.error("Error " + data.message)
             errorMessage.style = "display:block";
             navpagination.style = "display:none";
+            resultsMessage.style = "display:none";
             return;
         }
 
@@ -72,6 +74,7 @@ request.onload = function () {
 
         pagination(data.total_pages, data.actual_page);
 
+        results(data['total_images'],data['total_articles']);
 
 
         request.close();
@@ -81,6 +84,7 @@ request.onload = function () {
         console.error("La peticion ha fallado")
         errorMessage.style = "display:block";
         navpagination.style = "display:none";
+        resultsMessage.style = "display:none";
 
     }
 
@@ -160,6 +164,8 @@ function eventToPage(numPage) {
     intputText.setAttribute("class", "form-control")
     errorMessage.style = "display:none"
     gallery.innerHTML = ""
+    resultsMessage.innerHTML = ""
+    
 
     if (intputText.value == "" || intputText.value == " " || intputText.value.length == 0) {
         intputText.setAttribute("class", "form-control is-invalid");
@@ -208,6 +214,17 @@ function pagination(total_Pages, actual_page) {
 
 }
 
+function results(total_images,total_articles){
+    while (resultsMessage.firstChild) {
+        resultsMessage.removeChild(resultsMessage.firstChild);
+    }
+    resultsMessage.style = "display:block";
+    message_result=document.createElement("p");
+    message_result.innerHTML = "About "+total_images+" results in "+total_articles+" articles";
+
+    resultsMessage.appendChild(message_result);
+
+}
 
 
 

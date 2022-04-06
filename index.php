@@ -40,6 +40,8 @@
                 </div>
             </div>
         </form>
+        <div id="results">
+        </div>
 
         <div id="gallery" class="w-100">
 
